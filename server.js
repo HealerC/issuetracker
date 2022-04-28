@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const errorHandlerMiddleware = require('./middlewares/error-handler.js');
+const connectDB = require('./db/connect.js');
 
 //Sample front-end
 app.route('/:project/')
@@ -51,20 +52,34 @@ app.use(function(req, res, next) {
 //Error handler Middleware
 app.use(errorHandlerMiddleware);
 
-//Start our server and tests!
-const listener = app.listen(process.env.PORT || 3000, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
-  if(process.env.NODE_ENV==='test') {
-    console.log('Running Tests...');
-    setTimeout(function () {
-      try {
-        runner.run();
-      } catch(e) {
-        console.log('Tests are not valid:');
-        console.error(e);
-      }
-    }, 3500);
+//Start the server including initializing db
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    listener();
+  } catch(err) {
+    console.log(err);
   }
-});
+}
+start();
+
+//Start listening on port and testing!
+const listener = () => {
+  return app.listen(process.env.PORT || 3000, function () {
+    console.log('Your app is listening on port ' + this.address().port);
+    if(process.env.NODE_ENV==='test') {
+      console.log('Running Tests...');
+      setTimeout(function () {
+        try {
+          runner.run();
+        } catch(e) {
+          console.log('Tests are not valid:');
+          console.error(e);
+        }
+      }, 3500);
+    }
+  });
+}
+
 
 module.exports = app; //for testing
