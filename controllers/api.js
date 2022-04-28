@@ -1,6 +1,13 @@
-const getIssues = function(req, res) {
+const Project = require('../models/Project.js');
+const Issue = require('../models/Issue.js');
+
+/* Get all issues concerning a project (with filters) */
+const getIssues = async function(req, res) {
   let project = req.params.project;
-  res.json({action: "get all issues", project, filters: req.query});
+  const projectId = await Project.find({name: project});
+  const issues = await Issue.find({projectId});
+  //res.json({action: "get all issues", project, filters: req.query});
+  res.json(issues);
 }
 
 const createIssue = function(req, res) {
