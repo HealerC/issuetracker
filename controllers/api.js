@@ -12,9 +12,15 @@ const getIssues = async function(req, res) {
   res.json(issues);
 }
 
-const createIssue = function(req, res) {
+const createIssue = async function(req, res) {
   let project = req.params.project;
-  res.status(201).json({"action": "create issue", project, issue: req.body});
+  let projectId = await Project.findOne({name: project});
+  if (!projectId) {
+    projectId = await Project.create({name: project});
+    projectId = projectId._id;
+  }
+  const issue = await Issue.create({projectId, ...req.body});
+  res.status(201).json(issue);
 }
 
 const updateIssue = function(req, res) {
