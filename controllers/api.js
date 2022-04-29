@@ -35,9 +35,13 @@ const updateIssue = async function(req, res) {
   res.status(200).json(issue);
 }
 
-const deleteIssue = function(req, res) {
-  let project = req.params.project;
-  res.json({"action": "delete issue", project, id: req.body._id});
+const deleteIssue = async function(req, res) {
+  let project = await Project.findOne({name: req.params.project});
+  const {_id} = req.body;
+  const issue = await Issue.findByIdAndRemove({
+    _id, projectId: project
+  });
+  res.status(200).json({"action": "delete issue", issue});
 }
 
 module.exports = {
