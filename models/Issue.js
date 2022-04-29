@@ -41,7 +41,10 @@ const issueSchema = new mongoose.Schema({
     required: [true, 'Please provide projectId']
   }
 }, {
-    timestamps: true
+    timestamps: {
+      createdAt: 'created_on',
+      updatedAt: 'updated_on'
+    }
 });
 
 issueSchema.pre('save', function(){
