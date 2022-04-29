@@ -23,9 +23,16 @@ const createIssue = async function(req, res) {
   res.status(201).json(issue);
 }
 
-const updateIssue = function(req, res) {
-  let project = req.params.project;
-  res.json({"action": "update issue", project, update: req.body});
+const updateIssue = async function(req, res) {
+  //let project = req.params.project;
+  const {params: {project}, body: {_id}} = req;
+  let projectId = await Project.findOne({name: project});
+  const issue = await Issue.findOneAndUpdate(
+    {_id, projectId},
+    req.body,
+    {new: true, runValidators: true}
+  );
+  res.status(200).json(issue);
 }
 
 const deleteIssue = function(req, res) {
