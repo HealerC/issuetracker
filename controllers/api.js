@@ -3,10 +3,9 @@ const Issue = require('../models/Issue.js');
 
 /* Get all issues concerning a project (with filters) */
 const getIssues = async function(req, res) {
-  const project = await Project.find({name: req.params.project});
+  const project = await Project.findOne({name: req.params.project});
   const issues = await Issue.find({projectId: project._id, ...req.query});
-  //res.json({action: "get all issues", project, filters: req.query});
-  res.json(issues);
+  res.status(200).json(issues);
 }
 
 const createIssue = async function(req, res) {
