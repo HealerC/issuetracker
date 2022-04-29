@@ -20,7 +20,6 @@ const issueSchema = new mongoose.Schema({
   assigned_to: {
     type: String,
     default: "",
-    minlength: 3,
     maxlength: 50
   },
   open: {
@@ -34,7 +33,6 @@ const issueSchema = new mongoose.Schema({
   status_text: {
     type: String,
     default: "",
-    minlength: 3,
     maxlength: 50
   },
   projectId: {
