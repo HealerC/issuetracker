@@ -11,7 +11,8 @@ const errorHandler = (err, req, res, next) => {
   }
   if (err instanceof CustomError) {
     customError.statusCode = err.statusCode;
-    customError.message = { error: err.message }
+    customError.message = err.cause ? { error: err.message, ...err.cause } :
+                                      { error: err.message }
   }
   return res.status(customError.statusCode).json(customError.message);
 }
