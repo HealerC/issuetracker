@@ -1,6 +1,8 @@
 const Project = require('../models/Project.js');
 const Issue = require('../models/Issue.js');
 
+const BadRequestError = require('../errors/bad-request.js');
+
 /* Get all issues concerning a project (with filters) */
 const getIssues = async function(req, res) {
   const project = await Project.findOne({name: req.params.project});
@@ -21,6 +23,9 @@ const createIssue = async function(req, res) {
 const updateIssue = async function(req, res) {
   //let project = req.params.project;
   const {_id} = req.body;
+  if (!_id) {
+    throw new BadRequestError("missing _id");
+  }
   let project = await Project.findOne({name: req.params.project});
   const issue = await Issue.findOneAndUpdate(
     {_id, projectId: project._id},
