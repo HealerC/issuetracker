@@ -44,11 +44,15 @@ const updateIssue = async function(req, res) {
 
 const deleteIssue = async function(req, res) {
   const {_id} = req.body;
+  if (!_id) {
+    throw new BadRequestError("missing _id");
+  }
   let project = await Project.findOne({name: req.params.project});
   const issue = await Issue.findByIdAndRemove({
     _id, projectId: project._id
   });
-  res.status(200).json({"action": "delete issue", issue});
+  if (!issue) throw new BadRequestError("could not delete", {_id});
+  res.status(200).json({result: "successfully deleted", _id});
 }
 
 module.exports = {
