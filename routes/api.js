@@ -5,18 +5,19 @@ const {
   updateIssue,
   deleteIssue
 } = require('../controllers/api.js');
-
+const {
+  getProject, 
+  createAndGetProject
+} = require('../middlewares/project-handler.js');
 
 module.exports = function (app) {
-
   app.route('/api/issues/:project')
   
-    .get(getIssues)
+    .get(getProject, getIssues)
     
-    .post(createIssue)
+    .post(createAndGetProject, createIssue)
     
-    .put(updateIssue)
+    .put(getProject, updateIssue)
 
-    .delete(deleteIssue);
-    
+    .delete(getProject, deleteIssue);
 };
