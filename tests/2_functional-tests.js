@@ -189,17 +189,18 @@ suite('Functional Tests', function() {
           });
     });
     test('with invalid _id', function(done) {
+        const invalidId = testId + "abc";
         chai
           .request(server)
           .put('/api/issues/func_test')
           .send({
-            _id: testId + "abc"
+            _id: invalidId
           })
           .end(function(err, res) {
             assert.equal(res.status, 400);
             assert.equal(res.type, 'application/json');
             
-            assert.equal(res.body._id, testId);
+            assert.equal(res.body._id, invalidId);
             assert.equal(res.body.error, 'could not update');
             done();
           });
@@ -223,17 +224,18 @@ suite('Functional Tests', function() {
           });
     });
     test('with invalid _id', function(done) {
+        const invalidId = testId + 'abc';
         chai
           .request(server)
           .delete('/api/issues/func_test')
           .send({
-            _id: testId + 'abcd'
+            _id: invalidId
           })
           .end(function(err, res) {
             assert.equal(res.status, 400);
             assert.equal(res.type, 'application/json');
             
-            assert.equal(res.body._id, testId);
+            assert.equal(res.body._id, invalidId);
             assert.equal(res.body.error, 'could not delete');
             done();
           });
