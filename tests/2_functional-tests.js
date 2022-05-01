@@ -194,7 +194,8 @@ suite('Functional Tests', function() {
           .request(server)
           .put('/api/issues/func_test')
           .send({
-            _id: invalidId
+            _id: invalidId,
+            issue_title: "update:functional test -title"
           })
           .end(function(err, res) {
             assert.equal(res.status, 400);
