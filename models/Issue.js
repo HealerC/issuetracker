@@ -33,7 +33,7 @@ const issueSchema = new mongoose.Schema({
   status_text: {
     type: String,
     default: "",
-    maxlength: 50
+    maxlength: 150
   },
   projectId: {
     type: mongoose.Types.ObjectId,
