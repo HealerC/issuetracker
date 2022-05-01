@@ -3,7 +3,7 @@ function checkResponse(issueList, query) {
     let isFiltered;
     isFiltered = issueList.every(issue => {
         const queryList = Object.keys(query);
-        return queryList.every(query => issue[query] = queryList[query]);
+        return queryList.every(eachQuery => issue[eachQuery] = query[eachQuery]);
     });
     return isFiltered;
 }
