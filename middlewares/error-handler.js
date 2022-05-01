@@ -48,6 +48,7 @@ const errorHandler = (err, req, res, next) => {
                                       { error: err.message }
   }
   
-  return res.status(customError.statusCode).json(customError.message);
+  // Default error code because of fcc testing
+  return res.json(customError.message);
 }
 module.exports = errorHandler;
