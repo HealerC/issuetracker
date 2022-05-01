@@ -34,7 +34,7 @@ const updateIssue = async function(req, res) {
   );
   if (!issue) throw new BadRequestError("could not update", {_id});
   
-  res.status(200).json(issue);
+  res.status(200).json({result: "successfully updated", _id});
 }
 
 const deleteIssue = async function(req, res) {
